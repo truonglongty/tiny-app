@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Danh Sách Bài Viết</h2>
+    {% for post in posts %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none text-dark">
+                        {{ post.title }}
+                    </a>
+                </h4>
+                <p class="text-muted">
+                    Bởi <strong>{{ post.author }}</strong> - {{ post.created_at|date:"d/m/Y H:i" }}
+                </p>
+                <p class="card-text">
+                    {{ post.content|truncatewords:20 }}
+                </p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Đọc thêm</a>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-center">Chưa có bài viết nào.</p>
+    {% endfor %}
+</div>
+{% endblock %}
