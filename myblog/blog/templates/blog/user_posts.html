@@ -10,22 +10,29 @@
       <input type="checkbox" id="select-all"> <label for="select-all">Chọn tất cả</label>
     </div>
 
-    {% for post in posts %}
-      <article class="media content-section d-flex align-items-center">
-        {% if post.author == user or user.is_staff %}
-          <input type="checkbox" class="post-checkbox mx-2" name="post_ids" value="{{ post.id }}">
-        {% endif %}
-        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" width="50" height="50">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-            <small class="text-muted">{{ post.created_at|date:"F d, Y" }}</small>
-          </div>
-          <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-          <p class="article-content">{{ post.content }}</p>
+    <div class="row">
+      {% for post in posts %}
+        <div class="col-md-6">
+          <article class="media content-section d-flex align-items-center">
+            {% if post.author == user or user.is_staff %}
+              <input type="checkbox" class="post-checkbox mx-2" name="post_ids" value="{{ post.id }}">
+            {% endif %}
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" width="50" height="50">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+                <small class="text-muted">{{ post.created_at|date:"F d, Y" }}</small>
+              </div>
+              <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+              <p class="article-content">{{ post.content }}</p>
+            </div>
+          </article>
         </div>
-      </article>
-    {% endfor %}
+        {% if forloop.counter|divisibleby:2 %}
+          </div><div class="row">
+        {% endif %}
+      {% endfor %}
+    </div>
     
     <button type="submit" id="delete-selected" class="btn btn-danger mt-3" disabled>🗑️ Xóa bài viết</button>
   </form>
