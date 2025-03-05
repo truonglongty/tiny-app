@@ -20,6 +20,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from users import views as user_views
+from . import populate_db
+
+# Run the populate_db script
+populate_db.create_users()
+populate_db.create_posts()
 
 urlpatterns = [
     path('admin/', admin.site.urls),

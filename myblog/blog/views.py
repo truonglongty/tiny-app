@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Post
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.http import JsonResponse
 
 # Create your views here.
 def home(request):
@@ -18,7 +19,7 @@ class PostListView(ListView):
     template_name = 'blog/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-created_at']
-    paginate_by = 2
+    paginate_by = 5
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -30,7 +31,7 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 5
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -61,16 +62,6 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
     
-# class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-#     model = Post
-#     success_url = '/'
-
-#     def test_func(self):
-#         post = self.get_object()
-#         if self.request.user == post.author:
-#             return True
-#         return False
-
 class PostDeleteView(DeleteView):
     model = Post
     template_name = 'blog/post_confirm_delete.html'
@@ -81,6 +72,14 @@ def form_valid(self, form):
     messages.success(self.request, 'Post created successfully!')
     return super().form_valid(form)
 
+def delete_multiple_posts(request):
+    if request.method == 'POST':
+        post_ids = request.POST.getlist('post_ids')
+        posts = Post.objects.filter(id__in=post_ids, author=request.user)
+        deleted_count = posts.count()
+        posts.delete()
+        return JsonResponse({'success': True, 'message': f'{deleted_count} bài viết đã được xóa.'})
+    return JsonResponse({'success': False, 'message': 'Yêu cầu không hợp lệ.'})
 
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
