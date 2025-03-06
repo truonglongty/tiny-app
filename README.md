@@ -13,6 +13,7 @@
 - Python 3.9 trở lên
 - pip (Python package installer)
 - Virtual environment (venv)
+- Docker
 
 ### Cài đặt
 1. Clone repository về máy của bạn:
@@ -62,6 +63,24 @@
     ```
 
 ### Sử dụng Docker
+
+#### Cách 1: Cài đặt và chạy bằng Docker Hub (không cần clone repo)
+1. Kéo image từ Docker Hub:
+    ```sh
+    docker pull longty/tiny-app:latest
+    ```
+
+2. Chạy Docker container:
+    ```sh
+    docker run -d -p 8000:8000 longty/tiny-app:latest
+    ```
+
+3. Truy cập ứng dụng tại địa chỉ:
+    ```
+    http://127.0.0.1:8000/
+    ```
+
+#### Cách 2: Xây dựng và chạy bằng Docker Compose
 1. Xây dựng Docker image:
     ```sh
     docker build -t tiny-app .
