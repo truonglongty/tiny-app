@@ -18,7 +18,7 @@
 ### Cài đặt
 1. Clone repository về máy của bạn:
     ```sh
-    git clone [URL của repository]
+    git clone https://github.com/truonglongty/tiny-app.git
     cd tiny-app
     ```
 
