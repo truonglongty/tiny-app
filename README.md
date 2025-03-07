@@ -2,7 +2,7 @@
 
 ## Thông tin cá nhân
 - Trương Long Tý - 22656001
-- Nguyễn Thái Uy - 22651711
+- Nguyễn Thái Uy - 22656171
 
 ## Mô tả project
 Đây là một ứng dụng blog đơn giản được phát triển bằng Django. Ứng dụng cho phép người dùng đăng ký, đăng nhập, tạo bài viết, quản lý bài viết của mình và xem bài viết của người khác. Ngoài ra, admin có thể quản lý người dùng, block/unblock người dùng và reset mật khẩu.
